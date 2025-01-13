@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:project/app/app_theme_data.dart';
 import 'package:project/app/controler_binder.dart';
 import 'package:project/features/auth/ui/screens/complete_profile_screen.dart';
+import 'package:project/features/auth/ui/screens/forget_pass_otp_screen.dart';
+import 'package:project/features/auth/ui/screens/forget_pass_phone_screen.dart';
 import 'package:project/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:project/features/auth/ui/screens/phone_verification_screen.dart';
 import 'package:project/features/auth/ui/screens/sign_in_screen.dart';
@@ -37,6 +39,10 @@ class _ProjectState extends State<Project> {
             widget =  CompleteProfileScreen(phoneNumber: phoneNumber);
           }else if (settings.name == SignInScreen.name) {
             widget = const SignInScreen();
+          }else if (settings.name == ForgetPassPhoneScreen.name) {
+            widget = const ForgetPassPhoneScreen();
+          }else if (settings.name == ForgetPassOtpScreen.name) {
+            widget = const ForgetPassOtpScreen();
           }
 
           return MaterialPageRoute(builder: (ctx) {

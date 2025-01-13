@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:project/features/auth/ui/screens/phone_verification_screen.dart';
 import 'package:project/features/auth/ui/widgets/app_logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String name = '/';
+
   const SplashScreen({super.key});
 
   @override
@@ -13,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -45,4 +43,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-

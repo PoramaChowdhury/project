@@ -1,4 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project/app/app_colors.dart';
+import 'package:project/features/auth/ui/screens/forget_pass_phone_screen.dart';
+import 'package:project/features/auth/ui/screens/phone_verification_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -32,18 +37,33 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 24),
               buildForm(),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Handle the sign-in process
-                  }
-                },
+                onPressed: _onTapNextButton, //need to Fixed here withcorrect function
                 child: const Text('Sign In'),
+              ),
+              const SizedBox(height: 14),
+              Center(
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: _onTapForgetPasswordButton,
+                      child: const Text(
+                        'Forget your password?',
+                        style: TextStyle(letterSpacing: 0.5, color: Colors.grey),
+                      ),
+                    ),
+                    _buildSignUpSection(),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _onTapForgetPasswordButton() {
+    Get.to(() => const ForgetPassPhoneScreen());
   }
 
   Widget buildForm() {
@@ -75,7 +95,6 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           const SizedBox(height: 16),
 
-          // Only show the email and password fields if a role is selected
           if (_selectedRole != null) ...[
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -85,24 +104,6 @@ class _SignInScreenState extends State<SignInScreen> {
               validator: (String? value) {
                 if (value?.trim().isEmpty ?? true) {
                   return 'Enter your email';
-                }
-
-                if (_selectedRole == 'Student') {
-                  if (!RegExp(r'^cse_\d{15}@lus\.ac\.bd$').hasMatch(value!)) {
-                    return 'Enter a valid student email';
-                  }
-                } else if (_selectedRole == 'Teacher') {
-                  if (!RegExp(r'^[a-zA-Z]+_cse@lus\.ac\.bd$')
-                      .hasMatch(value!)) {
-                    return 'Enter a valid teacher email';
-                  }
-                } else if (_selectedRole == 'Driver') {
-                  if (!RegExp(r'^[a-zA-Z]+_driver@lus\.ac\.bd$')
-                      .hasMatch(value!)) {
-                    return 'Enter a valid driver email';
-                  }
-                } else {
-                  return 'Please select a role first';
                 }
                 return null;
               },
@@ -128,6 +129,41 @@ class _SignInScreenState extends State<SignInScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildSignUpSection() {
+    return RichText(
+      text: TextSpan(
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          letterSpacing: 0.5,
+        ),
+        text: "Don't have an account?  ",
+        children: [
+          TextSpan(
+            text: 'Sign up ',
+            style: const TextStyle(
+              color: AppColors.themeColor,
+            ),
+            recognizer: TapGestureRecognizer()..onTap = _onTapSignUp,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onTapNextButton() {
+    /*if (!_formKey.currentState!.validate()) {
+      return;  // If form is invalid, do nothing
+    }*/
+
+  }
+
+
+  void _onTapSignUp() {
+    Get.to(() => const PhoneVerificationScreen());
   }
 
   @override

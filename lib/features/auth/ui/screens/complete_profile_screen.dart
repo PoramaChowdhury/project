@@ -29,7 +29,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   void initState() {
     super.initState();
 
-    // If the phone number is passed, set it in the mobile text controller
     if (widget.phoneNumber != null) {
       _mobileTEController.text = widget.phoneNumber!;
     }
