@@ -26,7 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             children: [
               const SizedBox(height: 60),
-              // Add your logo or any widget here if needed
+
               const SizedBox(height: 16),
               Text('Sign In', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 24),
