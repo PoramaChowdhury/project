@@ -16,8 +16,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
-  final TextEditingController _cityTEController = TextEditingController();
-  final TextEditingController _shippingAddressTEController = TextEditingController();
+  final TextEditingController _emailTEController = TextEditingController();
+  final TextEditingController _passwordTEController = TextEditingController();
+  final TextEditingController _confirmPasswordTEController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? _selectedRole;
@@ -44,10 +46,14 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               const SizedBox(height: 60),
               const AppLogoWidget(width: 100, height: 100),
               const SizedBox(height: 16),
-              Text('Complete Profile', style: Theme.of(context).textTheme.titleLarge),
+              Text('Complete Profile',
+                  style: Theme.of(context).textTheme.titleLarge),
               Text(
                 'Get started with us with your profile',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 24),
               buildForm(),
@@ -71,72 +77,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _firstNameTEController,
-            decoration: const InputDecoration(hintText: 'First Name'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your first name';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _lastNameTEController,
-            decoration: const InputDecoration(hintText: 'Last Name'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your last name';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _mobileTEController,
-            keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(hintText: 'Mobile'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your mobile number';
-              }
-              if (RegExp(r'^01[3-9]\d{8}$').hasMatch(value!) == false) {
-                return 'Enter valid mobile number';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _cityTEController,
-            decoration: const InputDecoration(hintText: 'City'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter valid city';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _shippingAddressTEController,
-            maxLines: 3,
-            decoration: const InputDecoration(hintText: 'Shipping Address'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter valid shipping address';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          // Dropdown for role selection
           DropdownButtonFormField<String>(
             decoration: const InputDecoration(hintText: 'Select Role'),
             value: _selectedRole,
@@ -159,6 +99,111 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             },
           ),
           const SizedBox(height: 16),
+          if (_selectedRole != null) ...[
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _firstNameTEController,
+              decoration: const InputDecoration(hintText: 'First Name'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Enter your first name';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _lastNameTEController,
+              decoration: const InputDecoration(hintText: 'Last Name'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Enter your last name';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _mobileTEController,
+              keyboardType: TextInputType.phone,
+              decoration: const InputDecoration(hintText: 'Mobile'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Enter your mobile number';
+                }
+                if (RegExp(r'^01[3-9]\d{8}$').hasMatch(value!) == false) {
+                  return 'Enter valid mobile number';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _emailTEController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(hintText: 'Email'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Enter your email';
+                }
+
+                if (_selectedRole == 'Student') {
+                  if (!RegExp(r'^cse_\d{15}@lus\.ac\.bd$').hasMatch(value!)) {
+                    return 'Enter a valid student email';
+                  }
+                } else if (_selectedRole == 'Teacher') {
+                  if (!RegExp(r'^[a-zA-Z]+_cse@lus\.ac\.bd$')
+                      .hasMatch(value!)) {
+                    return 'Enter a valid teacher email';
+                  }
+                } else if (_selectedRole == 'Driver') {
+                  if (!RegExp(r'^[a-zA-Z]+_driver@lus\.ac\.bd$')
+                      .hasMatch(value!)) {
+                    return 'Enter a valid driver email';
+                  }
+                } else {
+                  return 'Please select a role first';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _passwordTEController,
+              obscureText: true,
+              decoration: const InputDecoration(hintText: 'Password'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Enter your password';
+                }
+                if (value!.length < 6) {
+                  return 'Password must be at least 6 characters';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _confirmPasswordTEController,
+              obscureText: true,
+              decoration: const InputDecoration(hintText: 'Confirm Password'),
+              validator: (String? value) {
+                if (value?.trim().isEmpty ?? true) {
+                  return 'Confirm your password';
+                }
+                if (value != _passwordTEController.text) {
+                  return 'Passwords do not match';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
         ],
       ),
     );
@@ -169,8 +214,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     _firstNameTEController.dispose();
     _lastNameTEController.dispose();
     _mobileTEController.dispose();
-    _cityTEController.dispose();
-    _shippingAddressTEController.dispose();
+    _emailTEController.dispose();
+    _passwordTEController.dispose();
+    _confirmPasswordTEController.dispose();
     super.dispose();
   }
 }

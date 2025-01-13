@@ -5,6 +5,7 @@ import 'package:project/app/controler_binder.dart';
 import 'package:project/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:project/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:project/features/auth/ui/screens/phone_verification_screen.dart';
+import 'package:project/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:project/features/auth/ui/screens/splash_screen.dart';
 
 class Project extends StatefulWidget {
@@ -34,6 +35,8 @@ class _ProjectState extends State<Project> {
           } else if (settings.name == CompleteProfileScreen.name) {
             String phoneNumber = settings.arguments as String;
             widget =  CompleteProfileScreen(phoneNumber: phoneNumber);
+          }else if (settings.name == SignInScreen.name) {
+            widget = const SignInScreen();
           }
 
           return MaterialPageRoute(builder: (ctx) {
