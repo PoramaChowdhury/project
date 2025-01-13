@@ -133,7 +133,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 if (value?.trim().isEmpty ?? true) {
                   return 'Enter your mobile number';
                 }
-                if (RegExp(r'^01[3-9]\d{8}$').hasMatch(value!) == false) {
+                if (RegExp(r"^\+8801[3-9]\d{8}$").hasMatch(value!) == false) {
                   return 'Enter valid mobile number';
                 }
                 return null;
